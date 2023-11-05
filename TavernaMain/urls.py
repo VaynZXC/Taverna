@@ -20,5 +20,6 @@ from django.urls import path, include
 app_name = 'TavernaMain'
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('taverna_sign.urls')),
+    path('', include('taverna.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
