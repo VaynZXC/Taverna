@@ -10,7 +10,7 @@ from .forms import PostForm
 class Hub(ListView):
   model = Post
   template_name = 'taverna/hub.html'
-  context_object_name = 'Hub'
+  context_object_name = 'HubAllNews'
   queryset = Post.objects.order_by('-id')
   paginate_by = 10
 
@@ -26,3 +26,12 @@ class Hub(ListView):
     return self.filterset.qs
 
   form_class = PostForm
+
+  def post(self, request, *args, **kwargs):
+      form = self.form_class(request.POST)
+      if form.is_valid():
+          obj = form.save(commit=False)
+          obj.author = Author.objects.get(user=request.user)
+          obj.save()
+          form.save_m2m()
+      return super().get(request, *args, **kwargs)

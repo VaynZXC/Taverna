@@ -1,0 +1,35 @@
+{% extends 'layout_sign/base.html' %}
+{% load i18n %}
+{% load allauth account socialaccount %}
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock head_title %}
+{% block content %}
+    <h1 class="TitleLogitPage">Вход</h1>
+    <a class="LinkTextLoginPage" href={{ signup_url }}>(регистрация)</a>
+    {% url 'account_login' as login_url %}
+    {% element form form=form method="post" action=login_url tags="entrance,login" %}
+        {% slot body %}
+            {% csrf_token %}
+            <div class="FormLoginPage">
+              {% element fields form=form unlabeled=True %}
+              {% endelement %}
+            </div>
+            {% if redirect_field_value %}
+                <input type="hidden"
+                       name="{{ redirect_field_name }}"
+                       value="{{ redirect_field_value }}" />
+            {% endif %}
+        {% endslot %}
+        {% slot actions %}
+            <div class="ButtonWrapper">
+              <div class="button ButtonBackLoginPage">
+                <a href="/">Назад</a>
+              </div>
+              <button class="ButtonNextLoginPage" type="submit" tags="prominent,login">
+                Войти
+              </button>
+            </div>
+        {% endslot %}
+    {% endelement %}
+{% endblock content %}

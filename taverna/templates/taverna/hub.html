@@ -1,0 +1,66 @@
+{% extends 'layout/base.html' %}
+<link rel="shortcut icon" type="image/png" href="/static/logoo.png"/>
+{% block title %}
+Главная
+{% endblock title %}
+
+{% block content %}
+<div class='HubVideoWrapper'>
+  <h1>Спасибо что выбераете нас!</h1>
+  <video class="HubVideo" controls="controls" width="1100px">
+    <source src="/static/video/wow.mp4">
+  </video>
+  <p class="HubVideoText">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio aliquid libero beatae dignissimos fugit maiores delectus nostrum quod magnam veritatis aperiam excepturi aut, error optio quas earum debitis praesentium quos!
+  Iure similique eius velit labore hic quam officiis minus ea porro ducimus laboriosam, animi exercitationem voluptas illum at vitae perferendis ipsum consectetur eligendi corporis vel nam? Quidem expedita natus explicabo.
+  Rem alias numquam sit quaerat doloribus, velit nulla ex veniam id impedit repellat consequatur. Possimus vel explicabo soluta repellendus nobis ea sed? Nulla totam architecto nostrum vitae quasi voluptatem! Odio.0</p>
+</div>
+
+
+
+<h1 class="HubTitle text-center">Главная</h1>
+{% if HubAllNews %}
+ <form class="FilterForm" method="GET">
+  {{ filter.form }}
+  <input type='submit' class="btn btn-primary FilterFornButton" value="Найти">
+ </form>
+
+{% for news in HubAllNews %}
+<div class="PostWrapper">
+  <tr>
+    <td class='PostTitle'> 
+      <a href="">
+        {{ news.title }}
+      </a>
+    </td>
+    <td class='PostImage'> 
+      <image src="{{ news.image }}"></image>
+    </td>
+    <td class="PostTimeIn">
+      {{ news.time_in|date:'M d Y' }}
+    </td>
+    <td class="PostText">
+      {{ news.text|truncatechars:50 }}
+    </td>
+    <td class="PostCategory">
+      {% for category in news.category.all %}
+      <a href="?title=&time_in=&post_rating=&author=&cat={{category.category}}">{{category}}</a>
+      {% endfor %}
+    </td>
+    <td>
+      {{ news.post_rating }}
+    </td>
+    <td>
+      <a href="">Update</a>
+      <a href="">Detele</a>
+    </td>
+  </tr>
+</div>
+
+{% endfor%}
+{% include 'taverna/parts/paginator.html' %}
+{% else %}
+<h1>555555</h1>
+{% endif %}
+
+
+{% endblock content %}

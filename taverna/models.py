@@ -70,6 +70,10 @@ class Post(models.Model):
   category = models.ManyToManyField(Category, through = 'PostCategory')
   title = models.CharField(max_length= 255)
   text = models.TextField(default = "Текст не указан")
+
+  image = models.ImageField()
+  file = models.FileField()
+
   post_rating = models.IntegerField(default = 0)
 
 class PostCategory(models.Model):

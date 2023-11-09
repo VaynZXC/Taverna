@@ -1,0 +1,330 @@
+html {
+  overflow-x: hidden;
+}
+
+
+.HubBackground {
+  position: absolute;
+  background-image: url(/static/images/background32.png);
+  background-repeat: repeat;
+  background-size: contain;
+  width: 100%;
+  z-index: -3;
+}
+
+.MainNavBar {
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-bottom: 10px;
+  background: linear-gradient(rgba(0, 0, 0, 0.493), rgba(0, 0, 0, 0));
+  font-size: 20px;
+  font-weight: 600;
+}
+.MainNavBarLoginPage {
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-bottom: 10px;
+  background: linear-gradient(rgba(0, 0, 0, 0.493), rgba(0, 0, 0, 0));
+  font-size: 20px;
+  font-weight: 600;
+  justify-content: center;
+}
+#LogoImageLoginPage {
+  display: flex;
+  justify-content: center;
+  width: 250px;
+  flex-wrap: nowrap;
+}
+#LogoImageLoginPage:hover {
+  transform: scale(1.05);
+  transition: all 0.45s;
+  filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.3)); 
+  transition-duration: 0.6s;
+}
+
+.particles {
+  position: absolute;
+}
+.particlesHub {
+  z-index: -1;
+}
+
+.NavBar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  padding-right: 25px;
+}
+.NavBarContainerLoginPage {
+  margin-top: 30px;
+}
+.NavLink {
+  color: #ffffff;
+}
+.NavLink:hover {
+  transform: scale(1.15);
+  transition: all 0.25s;
+  margin: 0px 10px 0px 10px;
+  color: #acacac;
+}
+.NavLoginLink {
+  color: #ffffff;
+}
+.NavLoginLink:hover {
+  color: #696969;
+}
+.NavHr {
+  color: #000000;
+  margin-top: 0;
+  border-bottom: solid 5px #000000;
+  opacity: 1;
+}
+.SearchSvg {
+  margin-top: 13px;
+  margin-left: 5px;
+}
+
+#LogoImage {
+  width: 100px;
+  height: 100px; 
+  margin: 10px 50px 0px 50px;
+}
+.NavLogin {
+  width: 100px;
+  height: 100px; 
+  margin: 0px 50px 0px 50px;
+  padding-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#logout {
+  color: #ffffff;
+  font-size: 25px;
+  margin-top: 6px;
+  margin-left: 30px;
+  margin-right: 60px;
+}
+#logout:hover {
+  color: #696969;
+  transition: all 0.25s;
+}
+#UserName {
+  color: #ffffff;
+  font-size: 25px;
+  text-decoration: none;
+}
+#UserName:hover {
+  color: #696969;
+  transition: all 0.25s;
+}
+.BackgroundImage {
+  position: absolute;
+  z-index: -3;
+  height: 110vh;
+}
+.HubBackgroundLoginPage {
+  position: absolute;
+  z-index: -1;
+  background-image: url(/static/images/background3.png);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+}
+.ContentBackground {
+  position: block;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  margin-top: 30px;
+  padding: 3px 20px 3px 20px;
+  min-height: 700px;
+}
+.ContentBackgroundLoginPage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  padding: 3px 20px 3px 20px;
+  max-width: 800px;
+  text-align: center;
+}
+.TitleLogitPage {
+  font-weight: 700;
+  width: 100%;
+  font-size: 40px;
+  margin-bottom: 0px;
+}
+.LinkTextLoginPage {
+  width: 200px;
+  font-size: 20px;
+  font-style: italic;
+  text-decoration: none;
+  color: #ffffff;
+  margin-left: 2px;
+  margin-bottom: 20px;
+}
+.LinkTextLoginPage:hover {
+  color: #696969;
+  transition: all 0.2s;
+}
+.LoginBtnBack {
+  margin-top: 100px;
+}
+.FormLoginPage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+.ButtonWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.ButtonBackLoginPage {
+  align-items: center;
+  background-color: rgb(117, 40, 40);
+  border-radius: 5px;
+  width: 80px;
+  height: 40px;
+  margin: 20px 0px 5px 20px;
+}
+.ButtonBackLoginPage a {
+  font-size: 23px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #ffffff;
+}
+.ButtonBackLoginPage:hover {
+  transition: all 0.3s;
+  transform: scale(1.05);
+}
+.ButtonNextLoginPage {
+  background-color: rgb(40, 51, 146);
+  border-radius: 5px;
+  width: 80px;
+  height: 40px;
+  margin: 20px 20px 5px 0px;
+  font-size: 22px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #ffffff;
+  text-align: center;
+  box-shadow: none;
+}
+.ButtonNextLoginPage:hover {
+  transition: all 0.3s;
+  transform: scale(1.05);
+}
+
+.FormLoginPage p {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.FormLoginPage :nth-child(3) {
+  width: 100%;
+}
+.helptext {
+  width: 100%;
+  text-align: center;
+}
+.helptext a {
+  width: 100%;
+  text-decoration: none;
+  font-style: italic;
+  color: #ffffff;
+}
+.FormSignPage ul {
+  visibility: hidden;
+}
+.helptext a:hover {
+  color: #696969;
+  transition: all 0.3s;
+}
+.BodyLoginPage {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.blur {
+  backdrop-filter: blur(10px);
+  height: 100%;
+	width: 100%;
+}
+.blurLoginPage {
+  display: flex;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  height: 100%;
+	width: 577px;
+  margin-top: 30px;
+  border-radius: 20px;
+}
+.blurContainer {
+  display: flex;
+  justify-content: center;
+}
+.AvatarSvg {
+  z-index: 5;
+}
+.HubTitle {
+  margin-bottom: 5vh;
+  margin-right: 20px;
+}
+.HubVideoText {
+  text-align: center;
+  margin-top: 20px;
+}
+.PostWrapper {
+  background-color: rgba(59, 59, 59, 0);
+  color: #ffffff;
+  height: 500px;
+  margin-bottom: 60px;
+  margin-left: 50px;
+  margin-right: 50px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.534)
+}
+.HubVideoWrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 50px 20px 50px;
+  box-sizing: content-box;
+
+}
+.HubVideo {
+  margin-top: 17px;
+  box-sizing: content-box;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.534)
+}
+
+.FilterForm {
+  display: flex;
+  justify-content: center;
+  height: 30px;
+  margin-bottom: 50px;
+  width: 100%;
+}
+.FilterFornButton {
+  margin-left: 10px;
+  background-color: firebrick;
+  box-shadow: none;
+  border: none;
+  text-align: center;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 12px;
+}
+.FilterFornButton:hover {
+  background-color: rgb(126, 23, 23);
+  transition: all 0.3s;
+}
