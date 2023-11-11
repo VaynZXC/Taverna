@@ -16,9 +16,14 @@
             {% endif %}
         {% endslot %}
         {% slot actions %}
-            {% element button type="submit" %}
-                {% trans 'Sign Out' %}
-            {% endelement %}
+        <div class="ButtonWrapperLogOut">
+          <div class="button ButtonBackLoginPage">
+            <a href="/">Назад</a>
+          </div>
+          <button class="ButtonNextLoginPage" type="submit" tags="prominent,login">
+            Выйти
+          </button>
+        </div>
         {% endslot %}
     {% endelement %}
 {% endblock content %}

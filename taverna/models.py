@@ -31,6 +31,9 @@ class Category(models.Model):
     potion_makers = 'PM'
     spell_masters = 'SM'
 
+    events = 'EV'
+    guide = 'GU'
+
     THEMES = [
           (tank, 'Такни'),
           (heal, 'Хилы'),
@@ -42,6 +45,8 @@ class Category(models.Model):
           (tanner, 'Кожевники'),
           (potion_makers, 'Зельевары'),
           (spell_masters, 'Мастера заклинаний'),
+          (events, 'Ивент'),
+          (guide, 'Гайд'),
         ]
     
     category = models.CharField(max_length = 2, choices=THEMES, unique=True)
@@ -72,7 +77,7 @@ class Post(models.Model):
   text = models.TextField(default = "Текст не указан")
 
   image = models.ImageField()
-  file = models.FileField()
+  file = models.FileField(default= None)
 
   post_rating = models.IntegerField(default = 0)
 

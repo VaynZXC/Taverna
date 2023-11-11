@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Post, Author, Category, CategorySubscriber, User
 from .filters import PostFilter
 from .forms import PostForm
+from django.core.cache import cache
 
 # Create your views here.
 class Hub(ListView):
@@ -35,3 +36,16 @@ class Hub(ListView):
           obj.save()
           form.save_m2m()
       return super().get(request, *args, **kwargs)
+  
+class PostDetail(DetailView):
+    model = Post
+    template_name = 'taverna/news_detail.html'
+    context_object_name = 'news'
+    queryset = Post.objects.all()
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+        if not obj:
+            obj = super().get_object(queryset=self.queryset) 
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+        return obj

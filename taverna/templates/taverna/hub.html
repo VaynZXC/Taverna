@@ -26,40 +26,83 @@
 
 {% for news in HubAllNews %}
 <div class="PostWrapper">
+  <div class="PostContentWrapper">
   <tr>
-    <td class='PostTitle'> 
-      <a href="">
-        {{ news.title }}
-      </a>
+    <td> 
+      <a href="{% url 'taverna:news_detail' news.id %}"><image class='PostImage' src="{{ news.image.url }}"></image></a>
     </td>
-    <td class='PostImage'> 
-      <image src="{{ news.image }}"></image>
-    </td>
-    <td class="PostTimeIn">
-      {{ news.time_in|date:'M d Y' }}
-    </td>
-    <td class="PostText">
-      {{ news.text|truncatechars:50 }}
-    </td>
-    <td class="PostCategory">
-      {% for category in news.category.all %}
-      <a href="?title=&time_in=&post_rating=&author=&cat={{category.category}}">{{category}}</a>
-      {% endfor %}
+    <div class="PostContentWrapper2">
+      <div class="PostAuthorRatingWrapper">
+        <td>
+          <a href="" class="PostAuthor">{{ news.author }}</a>
+        </td>
+        <td>
+          <h1 class="PostRating">{{ news.post_rating }}</h1>
+        </td>
+      </div>
+      <div class="PostTitleTextWrapper">
+        <td> 
+          <a class='PostTitle' href="{% url 'taverna:news_detail' news.id %}">
+            {{ news.title }}
+          </a>
+        </td>
+        <td>
+          <p class="PostText">{{ news.text|truncatechars:200 }}</p>
+        </td>
+      </div>
+      <div class="PostCategoryWrapper">
+        {% for category in news.category.all %}
+          {% if category.category == 'TR' %}
+            <a class="PostCategoryObj CategoryRT" href="?title=&post_rating=&author=&cat=TR">{{category}}</a>
+          {% elif category.category == 'BL' %}
+            <a class="PostCategoryObj CategoryBL" href="?title=&post_rating=&author=&cat=BL">{{category}}</a>
+          {% elif category.category == 'TN' %}
+            <a class="PostCategoryObj CategoryTN" href="?title=&post_rating=&author=&cat=TN">{{category}}</a>
+          {% elif category.category == 'QG' %}
+            <a class="PostCategoryObj CategoryQG" href="?title=&post_rating=&author=&cat=QG">{{category}}</a>
+          {% elif category.category == 'TA' %}
+            <a class="PostCategoryObj CategoryTA" href="?title=&post_rating=&author=&cat=TA">{{category}}</a>
+          {% elif category.category == 'DD' %}
+            <a class="PostCategoryObj CategoryDD" href="?title=&post_rating=&author=&cat=DD">{{category}}</a>
+          {% elif category.category == 'EV' %}
+            <a class="PostCategoryObj CategoryEV" href="?title=&post_rating=&author=&cat=EV">{{category}}</a>
+          {% elif category.category == 'HE' %}
+            <a class="PostCategoryObj CategoryHE" href="?title=&post_rating=&author=&cat=HE">{{category}}</a>
+          {% elif category.category == 'GU' %}
+            <a class="PostCategoryObj CategoryGU" href="?title=&post_rating=&author=&cat=GU">{{category}}</a>
+          {% elif category.category == 'SM' %}
+            <a class="PostCategoryObj CategorySM" href="?title=&post_rating=&author=&cat=SM">{{category}}</a>
+          {% elif category.category == 'PM' %}
+            <a class="PostCategoryObj CategoryPM" href="?title=&post_rating=&author=&cat=PM">{{category}}</a>
+          {% elif category.category == 'GM' %}
+            <a class="PostCategoryObj CategoryGM" href="?title=&post_rating=&author=&cat=GM">{{category}}</a>
+          {% else %}
+            <a class="PostCategoryObj" href="">{{category}}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="PostToolsWrapper">
+    <td>
+      <h4 class="PostTimeIn">{{ news.time_in|date:'M d Y' }}</h4>
     </td>
     <td>
-      {{ news.post_rating }}
+      <div class=" PostTools">
+        <a class="PostToolsObj" href="">Update</a>
+        <a class="PostToolsObj" href="">Detele</a>
+      </div>
     </td>
-    <td>
-      <a href="">Update</a>
-      <a href="">Detele</a>
-    </td>
+  </div>
   </tr>
 </div>
 
 {% endfor%}
+<div class="PaginatorWrapper">
 {% include 'taverna/parts/paginator.html' %}
+</div>
 {% else %}
-<h1>555555</h1>
+<h1>Пока новостей нет.</h1>
 {% endif %}
 
 
