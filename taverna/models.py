@@ -77,7 +77,6 @@ class Post(models.Model):
   text = models.TextField(default = "Текст не указан")
 
   image = models.ImageField()
-  file = models.FileField(default= None)
 
   post_rating = models.IntegerField(default = 0)
 

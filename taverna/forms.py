@@ -6,8 +6,13 @@ from .models import Author
 class PostForm(ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'text', 'category']
+        fields = ['image', 'title', 'text', 'category']
         widgets = {
+            'image' : forms.FileInput(attrs={
+                  'class' : 'form-control',
+                  'placeholder' : 'Вставте картинку',
+                  'id' : 'postform-iamge-field'
+                }),
             'title' : forms.TextInput(attrs={
                   'class' : 'form-control',
                   'placeholder' : 'Заголовок...',

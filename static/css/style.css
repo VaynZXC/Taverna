@@ -217,6 +217,7 @@ body::-webkit-scrollbar-thumb:hover {
   width: 80px;
   height: 40px;
   margin: 20px 0px 5px 20px;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.3);
 }
 .ButtonBackLoginPage a {
   font-size: 23px;
@@ -241,6 +242,7 @@ body::-webkit-scrollbar-thumb:hover {
   text-align: center;
   box-shadow: none;
   border: none;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.5);
 }
 .ButtonNextLoginPage:hover {
   transition: all 0.3s;
@@ -315,7 +317,7 @@ body::-webkit-scrollbar-thumb:hover {
   margin-left: 50px;
   margin-right: 50px;
   border-radius: 20px;
-  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.534)
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.534);
 }
 .PostContentWrapper {
   display: flex;
