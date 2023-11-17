@@ -697,3 +697,17 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: rgb(190, 34, 34);
   transition: all 0.3s;
 }
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  width: 400px;
+  height: 200px;
+  padding: 20px;
+  border: 1px solid black;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  display: none;
+}

@@ -1,0 +1,45 @@
+<style>
+  .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.281);
+      width: 400px;
+      height: 200px;
+      padding: 20px;
+      border: 1px solid black;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.829);
+      display: none;
+      border-radius: 20px;
+  }
+  .ProfileUserAvatar {
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.829);
+  }
+</style>
+
+
+
+
+<img calss='ProfileUserAvatar' src="{{ user_avatar.avatar }}" alt="">
+
+<button onclick="openPopup()">Сменить аватар</button>
+
+
+
+<div id="popup" class="popup">
+    <button onclick="closePopup()">Закрыть</button>
+</div>
+
+
+
+<script>
+  function openPopup() {
+      var popup = document.getElementById("popup");
+      popup.style.display = "block";
+  }
+  function closePopup() {
+      var popup = document.getElementById("popup");
+      popup.style.display = "none";
+  }
+</script>

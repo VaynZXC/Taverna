@@ -11,7 +11,7 @@ class PostForm(ModelForm):
             'image' : forms.FileInput(attrs={
                   'class' : 'form-control',
                   'placeholder' : 'Вставте картинку',
-                  'id' : 'postform-iamge-field'
+                  'id' : 'postform-image-field'
                 }),
             'title' : forms.TextInput(attrs={
                   'class' : 'form-control',
@@ -27,3 +27,4 @@ class PostForm(ModelForm):
                   'id' : 'postform-category-field'
                 }),
         }
+

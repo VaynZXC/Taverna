@@ -89,8 +89,8 @@
     </td>
     <td>
       <div class=" PostTools">
-        <a class="PostToolsObj" href="">Update</a>
-        <a class="PostToolsObj" href="">Detele</a>
+        <a class="PostToolsObj" href="{% url 'taverna:news_update' news.id %}">Update</a>
+        <a class="PostToolsObj" href="{% url 'taverna:news_delete' news.id %}">Detele</a>
       </div>
     </td>
   </div>
