@@ -67,7 +67,7 @@ class PostDetail(DetailView):
         return obj
 
 class PostCreate(UserPassesTestMixin, PermissionRequiredMixin, CreateView):
-    permission_required = ('news.add_post')
+    permission_required = ('taverna.add_post')
     template_name = 'taverna/news_create.html'
     form_class = PostForm
     
@@ -82,8 +82,8 @@ class PostCreate(UserPassesTestMixin, PermissionRequiredMixin, CreateView):
           form.save_m2m()
           return redirect('taverna:news_detail', obj.pk)
         else:
-          return HttpResponseBadRequest
-          # raise PermissionDenied("Форма не валидна")
+          # return HttpResponseBadRequest
+          raise PermissionDenied("Форма не валидна")
           
        
     def test_func(self, *args, **kwargs):
@@ -123,14 +123,16 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        author = Author.objects.get(user=user)
         categories = CategorySubscriber.objects.filter(subscriber=user.id)
         yesterday = datetime.now() - timedelta(days=1)
 
-        context['user_avatar'] = UserAvatar.objects.get(user=user)
+        # context['user_avatar'] = UserAvatar.objects.get(user=user)
         context['is_not_author'] = not user.groups.filter(name = 'author').exists()
         context['is_not_subscriber'] = not user.groups.filter(name='subscriber').exists()
-        context['posts_on_this_day'] = Post.objects.filter(author=author, time_in__gt=yesterday).count()
+
+        if user.groups.filter(name = 'author').exists():
+          author = Author.objects.get(user=user) 
+          context['posts_on_this_day'] = Post.objects.filter(author=author, time_in__gt=yesterday).count()
 
         if categories:
           context['subscribed'] = True
@@ -176,6 +178,7 @@ def upgrade_me(request):
     premium_group = Group.objects.get(name='author')
     if not request.user.groups.filter(name='author').exists():
         premium_group.user_set.add(user)
+        Author.objects.create(user=user)
     return redirect('taverna:profile')
 
 def subscribe(request, pk):
