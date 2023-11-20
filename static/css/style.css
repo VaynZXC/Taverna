@@ -711,3 +711,86 @@ body::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   display: none;
 }
+
+
+
+
+
+.BoardContainer {
+  margin-right: 40px;
+  margin-left: 40px;
+}
+.BoardBlur{
+  backdrop-filter: blur(10px);
+  height: 100%;
+	width: 100%;
+}
+.BoardContentBackground {
+  position: block;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  margin-top: 30px;
+  padding: 3px 20px 3px 20px;
+  min-height: 700px;
+}
+
+.BoardPostWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba(59, 59, 59, 0);
+  color: #ffffff;
+  margin-bottom: 60px;
+  margin-left: 50px;
+  margin-right: 50px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.534);
+}
+.BoardContentWrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.BoardSecondBarImage {
+  width: 300px;
+  height: 600px;
+}
+.BoardProposels {
+  width: 100%;
+}
+
+@media only screen and (max-width: 1480px) { 
+  .BoardPostContentWrapper {
+    flex-wrap: wrap;
+  }
+  .BoardProposels {
+    width: 100%;
+  }
+  .BoardSecondBarImage {
+    width: 100%;
+  }}
+
+.btn-close {
+  background-color: red;
+  padding: 10px;
+}
+
+.btn-3 {
+  background: lighten(red, 3%);  
+  border: 1px solid darken(red, 4%);
+  box-shadow: 0px 2px 0 darken(red, 5%), 2px 4px 6px darken(red, 2%);
+  font-weight: 900;
+  letter-spacing: 1px;
+  transition: all 150ms linear;
+}
+.btn-3:hover {
+  background: darken(red, 1.5%);
+  border: 1px solid rgba(#000, .05);
+  box-shadow: 1px 1px 2px rgba(#fff, .2);
+  color: lighten(red, 18%); 
+  text-decoration: none;
+  text-shadow: -1px -1px 0 darken(red, 9.5%);
+  transition: all 250ms linear;
+}
+.replySvg {
+  margin-bottom: 8px;
+}

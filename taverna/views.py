@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views.generic import DeleteView, TemplateView
-from .models import Post, Author, Category, CategorySubscriber, User, UserAvatar
+from .models import Post, Author, Category, CategorySubscriber, User, UserAvatar, Reply, PostReply
 from .filters import PostFilter
 from .forms import PostForm
 from django.core.cache import cache
@@ -28,15 +28,24 @@ class Hub(ListView):
   model = Post
   template_name = 'taverna/hub.html'
   context_object_name = 'HubAllNews'
-  queryset = Post.objects.order_by('-id')
+  posts = Post.objects.filter(news_or_proposal='NE')
+  queryset = posts.order_by('-id')
   paginate_by = 10
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
     context['form'] = PostForm
+    context['current_author'] = self.get_current_author()
     return context
   
+  def get_current_author(self):
+    if self.request.user.is_anonymous:
+        return None
+    else:
+      author = Author.objects.get(user=self.request.user)
+      return author
+
   def get_queryset(self):
     queryset = super().get_queryset()
     self.filterset = PostFilter(self.request.GET, queryset)
@@ -72,7 +81,7 @@ class PostCreate(UserPassesTestMixin, PermissionRequiredMixin, CreateView):
     form_class = PostForm
     
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, request.FILES)
         user = request.user
 
         if form.is_valid():
@@ -82,7 +91,6 @@ class PostCreate(UserPassesTestMixin, PermissionRequiredMixin, CreateView):
           form.save_m2m()
           return redirect('taverna:news_detail', obj.pk)
         else:
-          # return HttpResponseBadRequest
           raise PermissionDenied("Форма не валидна")
           
        
@@ -99,7 +107,7 @@ class PostCreate(UserPassesTestMixin, PermissionRequiredMixin, CreateView):
 
 @method_decorator(login_required(login_url = '/'), name='dispatch')
 class PostUpdate(PermissionRequiredMixin, UpdateView):
-    permission_required = ('news.change_post')
+    permission_required = ('taverna.change_post')
     template_name = 'taverna/news_create.html'
     form_class = PostForm
 
@@ -110,7 +118,7 @@ class PostUpdate(PermissionRequiredMixin, UpdateView):
     success_url = reverse_lazy('taverna:Hub')
 
 class PostDelete(PermissionRequiredMixin, DeleteView):
-    permission_required = ('news.delete_post')
+    permission_required = ('taverna.delete_post')
     model = Post
     template_name = 'taverna/news_delete.html'
     context_object_name = 'news'
@@ -126,7 +134,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         categories = CategorySubscriber.objects.filter(subscriber=user.id)
         yesterday = datetime.now() - timedelta(days=1)
 
-        # context['user_avatar'] = UserAvatar.objects.get(user=user)
         context['is_not_author'] = not user.groups.filter(name = 'author').exists()
         context['is_not_subscriber'] = not user.groups.filter(name='subscriber').exists()
 
@@ -215,3 +222,79 @@ def unsubscribe(request, pk):
     category.subscribers.remove(request.user.id)
     return redirect('taverna:hub')
 
+
+class BulletinBoard(ListView):
+  model = Post
+  template_name = 'bulletin_board/bulletin_board.html'
+  context_object_name = 'AllBoardProposal'
+  posts = Post.objects.filter(news_or_proposal='PR')
+  queryset = posts.order_by('-id')
+  paginate_by = 10
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
+    context['form'] = PostForm
+    context['current_author'] = self.get_current_author()
+    return context
+  
+  def get_current_author(self):
+    if self.request.user.is_anonymous:
+        return None
+    else:
+      author = Author.objects.get(user=self.request.user)
+      return author
+
+  def get_queryset(self):
+    queryset = super().get_queryset()
+    self.filterset = PostFilter(self.request.GET, queryset)
+    return self.filterset.qs
+
+  form_class = PostForm
+
+  def post(self, request, *args, **kwargs):
+      form = self.form_class(request.POST)
+      if form.is_valid():
+          obj = form.save(commit=False)
+          obj.author = Author.objects.get(user=request.user)
+          obj.save()
+          form.save_m2m()
+      return super().get(request, *args, **kwargs)
+  
+
+@login_required
+def reply(request, pk): 
+    user = request.user
+    post = Post.objects.get(pk=pk)
+    reply = Reply.objects.get_or_create(user=user)
+    PostReply.objects.create(post=post, reply=reply[0])
+
+    
+    email = user.email
+    html = render_to_string(
+        'mail/reply.html',
+        {
+            'reply': reply,
+            'user': user,    
+        },
+      )
+    
+    msg = EmailMultiAlternatives(
+          subject = f'Новый отклик на вашь пост',
+          body = f'{user} откликнулся на ваше объявление',
+          from_email = DEFAULT_FROM_EMAIL,
+          to = [email, ],
+        )
+    msg.attach_alternative(html, 'text/html')
+
+    try:
+        msg.send()
+    except Exception as e:
+        print(e)
+    return redirect('taverna:profile')
+
+        
+def unreply(request, pk):
+    post = Post.objects.get(pk=pk)
+    PostReply.objects.remove(post=post)
+    return redirect('taverna:hub')

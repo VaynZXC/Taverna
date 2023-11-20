@@ -17,7 +17,7 @@ class Author(models.Model):
     self.user_rating = 0
 
   def __str__(self):
-    return f'Автор #{self.pk}'
+    return f'{self.user.username}'
   
 class UserAvatar(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -87,6 +87,15 @@ class Post(models.Model):
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete = models.CASCADE)
     category = models.ForeignKey(Category, on_delete= models.CASCADE)
+
+class Reply(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    text = models.TextField(default = "")
+    time_in = models.DateTimeField(auto_now_add = True)
+
+class PostReply(models.Model):
+    post = models.ForeignKey(Post, on_delete = models.CASCADE)
+    reply = models.ForeignKey(Reply, on_delete = models.CASCADE)
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete = models.CASCADE)

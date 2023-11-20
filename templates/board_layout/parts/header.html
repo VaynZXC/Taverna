@@ -1,0 +1,39 @@
+<header class="p-3 MainNavBar">
+  <a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+    <img id="LogoImage" src="/static/images/logo2_1.png" alt="">
+  </a>
+  <div class="container NavBar">
+    <div class="d-flex flex-wrap align-items-center justify-content-center">
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="{% url 'taverna:Hub' %}" class="nav-link px-2 NavLink">Главная</a></li>
+        <li><a href="{% url 'taverna:news_create' %}" class="nav-link px-2 NavLink">Создать</a></li>
+        <li><a href="" class="nav-link px-2 NavLink">Лидеры</a></li>
+        <li><a href="" class="nav-link px-2 NavLink">Доска объявлений</a></li>
+        <li><a href="" class="nav-link px-2 NavLink">Рынок</a></li>
+        <li>
+          <svg class="NavLink SearchSvg" width="25px" height="25px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+            <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#ffffff" stroke-width="2.112" stroke-linecap="round" stroke-linejoin="round"></path> </g>
+          </svg>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="NavLogin">
+    {% if user.is_authenticated %}
+    <h4><a id="UserName" href="{% url 'taverna:profile' %}">{{user.username}}</a></h4>
+    
+    <svg class="AvatarSvg" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 1024 1024">
+      <path fill="#000000" d="M628.736 528.896A416 416 0 0 1 928 928H96a415.872 415.872 0 0 1 299.264-399.104L512 704l116.736-175.104zM720 304a208 208 0 1 1-416 0 208 208 0 0 1 416 0z"/>
+    </svg>
+
+    <a id="logout" class="nav-link" href="/accounts/logout/"><p>Logout</p></a>
+    {% else %}
+      <div class="NavLoginLink">
+        <a href="/accounts/login/" class="nav-link px-2">
+          Войти
+        </a>
+      </div>
+    {% endif %}
+  </div>
+ </header>
+ <!-- <hr class="NavHr"> -->
