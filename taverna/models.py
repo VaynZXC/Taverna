@@ -74,7 +74,7 @@ class Post(models.Model):
     (proposal, 'Предложение')
     ]
 
-  news_or_proposal = models.CharField(max_length= 2, default = news, choices=TYPE)
+  news_or_proposal = models.CharField(max_length= 2, default = proposal, choices=TYPE)
   time_in = models.DateTimeField(auto_now_add = True)
   category = models.ManyToManyField(Category, through = 'PostCategory')
   title = models.CharField(max_length= 255)

@@ -446,7 +446,7 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: rgba(40, 37, 187, 0.4);
 }
 .CategoryTA:hover {
-  background-color: rgb(34, 32, 168);
+  background-color: rgb(40, 37, 187);
 }
 .CategoryDD {
   background-color: rgb(141, 26, 26, 0.4);
@@ -793,4 +793,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 .replySvg {
   margin-bottom: 8px;
+}
+.replyWrapper {
+  justify-content: space-between;
 }

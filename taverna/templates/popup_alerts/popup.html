@@ -45,8 +45,12 @@
           <h2 class="text-center">Вы действительно хотите откликнуться на объяевление?</h2>
           <p>Если вы это сделаете, то уже не сможете отменить отклик.</p>
           <div class="replyButtons">
-            <button class="btn btn-3"  onclick="closePopup()">Нет</button>
-            <button class="btn btn-3" href="{% url 'taverna:reply' news.id %}">Да</button>
+            <div class="ButtonWrapper">
+              <button class="btn ButtonBackLoginPage" onclick="closePopup()">Назад</button>
+              <button class="btn ButtonNextLoginPage" onclick="closePopup()">
+                <a href="{% url 'taverna:reply' news.id %}">Войти</a>
+              </button>
+            </div>
           </div>
         </div>
       </div>
