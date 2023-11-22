@@ -1,5 +1,5 @@
 from django_filters import FilterSet, ChoiceFilter
-from .models import Post, Category
+from .models import Post, Category, PostReply
 
 
 class PostFilter(FilterSet):
@@ -7,3 +7,8 @@ class PostFilter(FilterSet):
     class Meta:
         model = Post
         fields = ('title', 'post_rating', 'author')
+
+class Post2Filter(FilterSet):
+    class Meta:
+        model = PostReply
+        fields = ('post__title', 'post__time_in')

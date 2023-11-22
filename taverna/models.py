@@ -90,7 +90,7 @@ class PostCategory(models.Model):
 
 class Reply(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
-    text = models.TextField(default = "")
+    text = models.TextField(default = "Откликнулся на ваш пост")
     time_in = models.DateTimeField(auto_now_add = True)
 
 class PostReply(models.Model):

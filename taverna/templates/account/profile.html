@@ -1,36 +1,62 @@
 {% extends "layout/base.html" %}
 
 {% block content %}
-<h2>
- Страница авторизованного пользователя {{request.user.username}}
-</h2>
+<div class="ProfileContentWrapper">
+  <h2 id="ProfileTitle">
+  Страница авторизованного пользователя {{request.user.username}}
+  </h2>
+  <!-- {% include 'account/parts/logo_choice.html' %} -->
+  <div class="ProfileGroup">
+    {% if is_not_author %}
+    <a class="btn btn-info" href="{% url 'taverna:upgrade' %}">Хочу стать автором!</a>
+    {% else %}
+    <h2>Группа: "Авторы"</h2>
+    {% endif %}
+  </div>
 
-{% include 'account/parts/logo_choice.html' %}
+  <h2 class="ProfilePostsCount">
+    Постов созданных сегодня: {{posts_on_this_day}} из 3
+  </h2>
 
- 
-{% if is_not_subscriber %}
-  <a class="btn btn-info" href="{#% url 'taverna:subscribe_me' %#}">Подписаться на рассылки!</a>
-{% else %}
-  <h3>Вы подписаты на рыссылку.</h3>
-{% endif %}
   
-{% if is_not_author %}
-  <a class="btn btn-info" href="{% url 'taverna:upgrade' %}">Хочу стать автором!</a>
-{% else %}
-<h3>Группа: "Авторы"</h3>
-{% endif %}
+  <div class="ProfileAuthorReplys">
+    <h1 class="PorofileH1">Отклики на ваши посты</h1>
+    <form class="FilterForm" method="GET">
+      {{ filter.form }}
+      <input type='submit' class="btn btn-primary FilterFornButton" value="Найти">
+    </form>
+    {% if author_replys %}
+      {% for reply in author_replys %}
+        <div class="replyWrapper">
+          <div class="replyTitleAuthor">
+            <h2 class="replyPostTitle">{{reply.post.title  }}<a class="replyPostAuthor" href="">{{reply.reply.user}}</a></h2>
+          </div>
+          <p class="replyReplyText">{{reply.reply.text}}</p>
+          <div class="replyProdileButtons">
+            <a class="btn btn-3 replyProdileAplyButtons" href="">Принять</a>
+            <a class="btn btn-3" href="">Отклонить</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
 
-<h2>
-  Постов созданных сегодня: {{posts_on_this_day}} из 3
-</h2>
 
+  <!-- <div class="AlertSubscibeButton">
+    {% if is_not_subscriber %}
+      <a class="btn btn-info" href="{#% url 'taverna:subscribe_me' %#}">Подписаться на рассылки!</a>
+    {% else %}
+      <h3>Вы подписаты на рыссылку.</h3>
+    {% endif %}
+  </div> -->
+<!-- </div>
 {% if subscribed %}
   <div id="categories-prifile">
     <h3>Категории на которые вы подписаны:</h3>
   {% for category in categories %}
     <a class="categories btn news-category-btn" href="{% url 'taverna:category_unsubscribe' category.category.pk %}"><h4>{{category.category}}</h4></a>
   {% endfor %}
-  </div>
+</div> -->
 {% else %}
 {% endif %}
 

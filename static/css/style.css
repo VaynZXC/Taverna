@@ -791,9 +791,99 @@ body::-webkit-scrollbar-thumb:hover {
   text-shadow: -1px -1px 0 darken(red, 9.5%);
   transition: all 250ms linear;
 }
+#btn-3-reply {
+  text-decoration: none;
+}
 .replySvg {
   margin-bottom: 8px;
 }
+
+.ProfileContentWrapper, .AlertSubscibeButton {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#ProfileTitle, .ProfileGroup {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.ProfileGroup h2 {
+  font-size: 24px;
+}
+.AlertSubscibeButton {
+  margin-left: 20px;
+}
+.ProfileAuthorReplys {
+  text-align: center;
+  width: 100%;
+  font-size: 24px;
+}
+.ProfilePostsCount {
+  font-size: 22px;
+}
+.PorofileH1 {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
 .replyWrapper {
+  flex-wrap: wrap;
+  justify-content: center;
+  display: flex;
+  max-width: 100%;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  background: rgb(245,221,205);
+  background: linear-gradient(90deg, rgba(255,206,160,1) 0%, rgba(255,179,108,1) 19%, rgba(255,254,205,1) 100%, rgba(0,212,255,1) 100%);
+  color: #000000;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.534);
+}
+.replyPostTitle {
+  display: flex;
+  margin-left: 20px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: 700;
+  width: 100%;
+}
+.replyTitleAuthor {
+  display: flex;
+  flex-wrap: nowrap;
+  text-align: center;
   justify-content: space-between;
+  margin-right: 0;
+  width: 100%;
+}
+.replyPostAuthor{
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 30px;
+  color: rgba(0, 0, 0, 0.548);
+}
+.replyPostAuthor:hover{
+  transform: scale(1.05);
+  text-shadow:  2px 2px 10px rgba(0, 0, 0, 0.534);
+  transition: all 0.4s;
+  color: #000000;
+}
+.replyReplyText {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+.replyProdileButtons {
+  margin-top: 0;
+  width: 100%;
+  border-top: solid 2px black;
+}
+.replyProdileAplyButtons {
+  margin-right: 20px;
 }

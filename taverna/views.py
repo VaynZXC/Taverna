@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views.generic import DeleteView, TemplateView
 from .models import Post, Author, Category, CategorySubscriber, User, UserAvatar, Reply, PostReply
-from .filters import PostFilter
+from .filters import PostFilter, Post2Filter
 from .forms import PostForm
 from django.core.cache import cache
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
@@ -19,6 +19,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
+import operator
 
 DEFAULT_FROM_EMAIL = settings.DEFAULT_FROM_EMAIL
 
@@ -127,7 +128,30 @@ class PostDelete(PermissionRequiredMixin, DeleteView):
 
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'account/profile.html'
+    model = PostReply
+    
+    def get_replys(self):
+      user = self.request.user
+      if user.groups.filter(name = 'author').exists():
+        author = Author.objects.get(user=self.request.user)
+        posts = Post.objects.filter(author=author)
+        post_reply = []
+        for post in posts:
+          if PostReply.objects.filter(post=post).exists():
+            replys = PostReply.objects.filter(post=post)
+            for reply in replys:
+              post_reply.append(reply)
+        post_reply = sorted(post_reply, key=operator.attrgetter('reply.time_in'))
+      return post_reply
 
+    replys = get_replys
+    queryset = replys
+    
+    def get_queryset(self):
+      queryset = super().get_queryset()
+      self.filterset = Post2Filter(self.request.GET, queryset)
+      return self.filterset.qs
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
@@ -136,6 +160,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
         context['is_not_author'] = not user.groups.filter(name = 'author').exists()
         context['is_not_subscriber'] = not user.groups.filter(name='subscriber').exists()
+        context['filter'] = Post2Filter(self.request.GET, queryset=self.replys)
+        context['author_replys'] = self.replys
 
         if user.groups.filter(name = 'author').exists():
           author = Author.objects.get(user=user) 
@@ -147,6 +173,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         else:
           context['subscribed'] = False
         return context
+    
 
 def change_avatar(request):
     return render(request, 'alerts/change_avatar.html')
@@ -298,3 +325,4 @@ def unreply(request, pk):
     post = Post.objects.get(pk=pk)
     PostReply.objects.remove(post=post)
     return redirect('taverna:hub')
+
