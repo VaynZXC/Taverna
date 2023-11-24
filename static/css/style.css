@@ -852,23 +852,26 @@ body::-webkit-scrollbar-thumb:hover {
   padding-left: 10px;
   padding-right: 10px;
   font-weight: 700;
-  width: 100%;
 }
 .replyTitleAuthor {
   display: flex;
   flex-wrap: nowrap;
   text-align: center;
-  justify-content: space-between;
+  justify-content: center;
   margin-right: 0;
   width: 100%;
 }
-.replyPostAuthor{
+.replyPostTitle, .replyPostAuthor{
   text-decoration: none;
   font-weight: 700;
-  margin-left: 30px;
+  margin-left: 40px;
+  margin-right: 60px;
   color: rgba(0, 0, 0, 0.548);
 }
-.replyPostAuthor:hover{
+.replyPostAuthor {
+  color: rgb(0, 0, 0);
+}
+.replyPostTitle:hover{
   transform: scale(1.05);
   text-shadow:  2px 2px 10px rgba(0, 0, 0, 0.534);
   transition: all 0.4s;
@@ -885,5 +888,10 @@ body::-webkit-scrollbar-thumb:hover {
   border-top: solid 2px black;
 }
 .replyProdileAplyButtons {
+  margin-right: 20px;
+}
+
+#id_post__title {
+  margin-left: 10px;
   margin-right: 20px;
 }

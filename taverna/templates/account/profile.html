@@ -18,26 +18,28 @@
     Постов созданных сегодня: {{posts_on_this_day}} из 3
   </h2>
 
-  
   <div class="ProfileAuthorReplys">
     <h1 class="PorofileH1">Отклики на ваши посты</h1>
     <form class="FilterForm" method="GET">
       {{ filter.form }}
       <input type='submit' class="btn btn-primary FilterFornButton" value="Найти">
     </form>
-    {% if author_replys %}
-      {% for reply in author_replys %}
-        <div class="replyWrapper">
-          <div class="replyTitleAuthor">
-            <h2 class="replyPostTitle">{{reply.post.title  }}<a class="replyPostAuthor" href="">{{reply.reply.user}}</a></h2>
+    {% if ProfileReplys %}
+      {% for reply in ProfileReplys %}
+          <div class="replyWrapper">
+            <div class="replyTitleAuthor">
+              <a href="{% url 'taverna:news_detail' reply.post.id %}" class="replyPostTitle">{{reply.post.title}}</a>
+              <h2 class="replyPostAuthor" href="">{{reply.reply.user}}</h2>
+            </div>
+            <p class="replyReplyText">{{reply.reply.text}}</p>
+            <div class="replyProdileButtons">
+              <a class="btn btn-3 replyProdileAplyButtons" href="">Принять</a>
+              <a class="btn btn-3" href="{% url 'taverna:unreply' reply.pk %}">Отклонить</a>
+            </div>
           </div>
-          <p class="replyReplyText">{{reply.reply.text}}</p>
-          <div class="replyProdileButtons">
-            <a class="btn btn-3 replyProdileAplyButtons" href="">Принять</a>
-            <a class="btn btn-3" href="">Отклонить</a>
-          </div>
-        </div>
       {% endfor %}
+    {% else %}
+      <h1 style="width: 100%; text-align: center;">Тут ничего нет</h1>
     {% endif %}
   </div>
 

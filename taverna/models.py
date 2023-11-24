@@ -1,8 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime, timedelta
+from django.conf import settings
 
 # Create your models here.
 
+class VerificationTokenManager(models.Manager):
+    
+    def get_queryset(self):
+        return super().get_querset().filter(
+            date_created__gte=datetime.now()-timedelta(minutes=10)
+        )
+
+class OneTimeСode(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    code = models.CharField(max_length=5)
+    time_in = models.DateTimeField(auto_now_add=True, db_index=True)
+    
 class Author(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   user_rating = models.IntegerField(default=0)

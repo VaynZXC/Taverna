@@ -126,8 +126,9 @@ class PostDelete(PermissionRequiredMixin, DeleteView):
     queryset = Post.objects.all()
     success_url = reverse_lazy('taverna:Hub')
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileView(LoginRequiredMixin, ListView):
     template_name = 'account/profile.html'
+    context_object_name = 'ProfileReplys'
     model = PostReply
     
     def get_replys(self):
@@ -135,20 +136,17 @@ class ProfileView(LoginRequiredMixin, TemplateView):
       if user.groups.filter(name = 'author').exists():
         author = Author.objects.get(user=self.request.user)
         posts = Post.objects.filter(author=author)
-        post_reply = []
+        queryset = PostReply.objects.none()
         for post in posts:
           if PostReply.objects.filter(post=post).exists():
-            replys = PostReply.objects.filter(post=post)
-            for reply in replys:
-              post_reply.append(reply)
-        post_reply = sorted(post_reply, key=operator.attrgetter('reply.time_in'))
-      return post_reply
+            replys = PostReply.objects.filter(post=post).all()
+            #for reply in replys:
+            queryset |= replys
+      return queryset
 
-    replys = get_replys
-    queryset = replys
-    
+
     def get_queryset(self):
-      queryset = super().get_queryset()
+      queryset = self.get_replys()
       self.filterset = Post2Filter(self.request.GET, queryset)
       return self.filterset.qs
     
@@ -160,12 +158,11 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
         context['is_not_author'] = not user.groups.filter(name = 'author').exists()
         context['is_not_subscriber'] = not user.groups.filter(name='subscriber').exists()
-        context['filter'] = Post2Filter(self.request.GET, queryset=self.replys)
-        context['author_replys'] = self.replys
 
         if user.groups.filter(name = 'author').exists():
           author = Author.objects.get(user=user) 
           context['posts_on_this_day'] = Post.objects.filter(author=author, time_in__gt=yesterday).count()
+          context['filter'] = Post2Filter(self.request.GET, queryset=self.get_queryset())
 
         if categories:
           context['subscribed'] = True
@@ -322,7 +319,62 @@ def reply(request, pk):
 
         
 def unreply(request, pk):
-    post = Post.objects.get(pk=pk)
-    PostReply.objects.remove(post=post)
-    return redirect('taverna:hub')
+    post_reply_obj = PostReply.objects.get(pk=pk)
+    post_reply_obj.delete()
 
+    user = post_reply_obj.reply.user
+
+    email = user.email
+    html = render_to_string(
+        'mail/reply.html',
+        {
+            'reply': reply,
+            'user': user,    
+        },
+      )
+    
+    msg = EmailMultiAlternatives(
+          subject = f'Ваш отклик отклонили',
+          body = f'{user}, ваш отклик отклонили, но вы всегда можете попробовать снова!',
+          from_email = DEFAULT_FROM_EMAIL,
+          to = [email, ],
+        )
+    msg.attach_alternative(html, 'text/html')
+
+    try:
+        msg.send()
+    except Exception as e:
+        print(e)
+        
+    return redirect('taverna:profile')
+
+def reply_accept_notice(request, pk):
+    post_reply_obj = PostReply.objects.get(pk=pk)
+    post_reply_obj.delete()
+
+    user = post_reply_obj.reply.user
+    author = post_reply_obj.post.author.user
+
+    email = user.email
+    html = render_to_string(
+        'mail/reply.html',
+        {
+            'reply': reply,
+            'user': user,    
+        },
+      )
+    
+    msg = EmailMultiAlternatives(
+          subject = f'Ваш отклик отклонили',
+          body = f'{user}, ваш отклик приняли. Вот почта афтора: {author.email} !',
+          from_email = DEFAULT_FROM_EMAIL,
+          to = [email, ],
+        )
+    msg.attach_alternative(html, 'text/html')
+
+    try:
+        msg.send()
+    except Exception as e:
+        print(e)
+        
+    return redirect('taverna:profile')
